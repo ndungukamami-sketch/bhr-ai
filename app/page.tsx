@@ -264,6 +264,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* AI Video Ads */}
+      <section id="ads" className="scroll-mt-16 bg-ink text-paper">
+        <div className="max-w-page mx-auto px-6 lg:px-10 py-20 lg:py-28">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <Reveal>
+              <p className="font-mono text-xs tracking-[0.25em] uppercase text-paper/50 mb-6">
+                Video ads
+              </p>
+              <h2 className="font-display text-4xl lg:text-5xl leading-[1.05]">
+                AI video ads, <em>scripted and shipped.</em>
+              </h2>
+              <p className="mt-6 text-paper/70 leading-relaxed max-w-md">
+                Short form video ads for social and digital, fifteen to thirty
+                seconds, generated end to end. Scripting is included in every
+                package, with revision rounds built in. No film crew, no agency
+                retainer, no month long timeline.
+              </p>
+            </Reveal>
+            <Reveal delay={150}>
+              <div className="border border-paper/20 p-8 lg:p-10">
+                <p className="font-mono text-xs tracking-[0.25em] uppercase text-paper/50">
+                  From
+                </p>
+                <p className="font-display text-5xl lg:text-6xl mt-3">
+                  KES 12,000
+                  <span className="text-xl text-paper/50"> / spot</span>
+                </p>
+                <p className="mt-5 text-paper/70 leading-relaxed">
+                  Single spots, campaign packs for a coordinated push, and brand
+                  bundles when you need volume. The more ads in a pack, the less
+                  you pay per ad.
+                </p>
+                <a
+                  href="#contact"
+                  className="mt-8 inline-block bg-paper text-ink px-7 py-3.5 font-mono text-sm tracking-wide hover:opacity-85 transition-opacity"
+                >
+                  Request the rate card
+                </a>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* About */}
       <section id="about" className="scroll-mt-16 border-y border-hairline bg-white/40">
         <div className="max-w-page mx-auto px-6 lg:px-10 py-20 lg:py-28">
