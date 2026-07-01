@@ -53,7 +53,26 @@ const steps = [
   },
 ];
 
-const work = [
+const work: {
+  name: string;
+  body: string;
+  stack: string;
+  status?: string;
+  link?: string;
+}[] = [
+  {
+    name: "Arctos",
+    body: "Foreign policy intelligence tracking defence, diplomacy, and strategic developments across Africa, Kenya first. Publishes structured briefs, with a custom monitoring tool and newsletter layer built in from the start.",
+    stack: "Next.js · MDX · Buttondown · Radar monitoring",
+    status: "Live",
+    link: "https://arctos.africa",
+  },
+  {
+    name: "Ironhold",
+    body: "A discipline tracking system built for one purpose and nothing else. Shipped from concept through closed testing on the Play Store, with streak logic and low friction daily check ins.",
+    stack: "React Native · Streak logic · Google Play",
+    status: "In Testing",
+  },
   {
     name: "Gmail MCP Server",
     body: "Production OAuth 2.0 server with encrypted token storage, in daily use across client integrations.",
@@ -249,7 +268,26 @@ export default function Home() {
             {work.map((w, i) => (
               <Reveal key={w.name} delay={i * 100}>
                 <div className="grid sm:grid-cols-[1fr_2fr] gap-3 sm:gap-10 py-8 border-t border-hairline">
-                  <h3 className="font-display text-2xl">{w.name}</h3>
+                  <div>
+                    {w.link ? (
+                      <a
+                        href={w.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-baseline gap-2 hover:opacity-60 transition-opacity"
+                      >
+                        <h3 className="font-display text-2xl">{w.name}</h3>
+                        <span className="font-mono text-xs">↗</span>
+                      </a>
+                    ) : (
+                      <h3 className="font-display text-2xl">{w.name}</h3>
+                    )}
+                    {w.status && (
+                      <p className="font-mono text-xs tracking-[0.2em] uppercase text-graphite mt-2">
+                        {w.status}
+                      </p>
+                    )}
+                  </div>
                   <div>
                     <p className="text-graphite leading-relaxed">{w.body}</p>
                     <p className="font-mono text-xs tracking-wide text-graphite mt-3">
