@@ -35,7 +35,10 @@ body {
   color: var(--chalk);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  /* `clip` — not `hidden`. overflow-x:hidden makes overflow-y compute to auto,
+     which turns body into a scroll container and silently breaks every
+     position:sticky descendant (the pinned work gallery and process rail). */
+  overflow-x: clip;
 }
 
 ::selection {

@@ -5,6 +5,9 @@ import Marquee from "@/components/Marquee";
 import Spotlight from "@/components/Spotlight";
 import Counter from "@/components/Counter";
 import Magnetic from "@/components/Magnetic";
+import Decode from "@/components/Decode";
+import FingerprintField from "@/components/FingerprintField";
+import WorkGallery, { type Work } from "@/components/WorkGallery";
 
 const WHATSAPP_URL = "https://wa.me/254721287760";
 const EMAIL = "agencybh01@gmail.com";
@@ -60,7 +63,7 @@ const services = [
 ];
 
 const stats = [
-  { value: 6, suffix: "", label: "Systems in production" },
+  { value: 5, suffix: "", label: "Systems in production" },
   { value: 2, suffix: " wk", label: "To first working build" },
   { value: 100, suffix: "%", label: "Client owned code" },
   { value: 24, suffix: " h", label: "Typical first reply" },
@@ -86,15 +89,6 @@ const steps = [
     meta: "Ongoing",
   },
 ];
-
-type Work = {
-  name: string;
-  body: string;
-  stack: string[];
-  status?: "Live" | "In Testing" | "In Production";
-  link?: string;
-  category: string;
-};
 
 const work: Work[] = [
   {
@@ -135,35 +129,25 @@ const work: Work[] = [
   },
 ];
 
-function Label({ children }: { children: React.ReactNode }) {
+function Label({
+  children,
+  center = false,
+}: {
+  children: string;
+  center?: boolean;
+}) {
   return (
-    <p className="font-mono text-[11px] tracking-[0.3em] uppercase text-mist flex items-center gap-3">
-      <span className="inline-block h-px w-8 bg-gradient-to-r from-violet2 to-cyan2" />
-      {children}
-    </p>
-  );
-}
-
-function StatusPill({ status }: { status: NonNullable<Work["status"]> }) {
-  const tone =
-    status === "Live"
-      ? "text-lime2 border-lime2/30 bg-lime2/5"
-      : status === "In Testing"
-        ? "text-ember border-ember/30 bg-ember/5"
-        : "text-cyan2 border-cyan2/30 bg-cyan2/5";
-  const dot =
-    status === "Live" ? "bg-lime2" : status === "In Testing" ? "bg-ember" : "bg-cyan2";
-
-  return (
-    <span
-      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-[10px] tracking-[0.18em] uppercase whitespace-nowrap ${tone}`}
+    <p
+      className={`font-mono text-[11px] tracking-[0.3em] uppercase text-mist flex items-center gap-3 ${
+        center ? "justify-center" : ""
+      }`}
     >
-      <span className="relative flex h-1.5 w-1.5">
-        <span className={`absolute inline-flex h-full w-full rounded-full ${dot} animate-pulse-ring`} />
-        <span className={`relative inline-flex h-1.5 w-1.5 rounded-full ${dot}`} />
-      </span>
-      {status}
-    </span>
+      <span className="inline-block h-px w-8 bg-gradient-to-r from-violet2 to-cyan2" />
+      <Decode text={children} />
+      {center && (
+        <span className="inline-block h-px w-8 bg-gradient-to-l from-violet2 to-cyan2" />
+      )}
+    </p>
   );
 }
 
@@ -174,18 +158,15 @@ export default function Home() {
       <section id="top" className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 grid-floor" aria-hidden />
 
-        {/* Topographic biometric scan */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden>
-          <Image
-            src="/images/hero-topographic.png"
-            alt=""
-            width={1408}
-            height={768}
-            priority
-            className="w-[150%] max-w-none opacity-[0.13] invert-art animate-spin-slow"
+        {/* Live fingerprint ridge field — reacts to the cursor */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden>
+          <FingerprintField
+            className="w-full h-full opacity-70"
             style={{
-              WebkitMaskImage: "radial-gradient(circle at 50% 50%, #000 12%, transparent 62%)",
-              maskImage: "radial-gradient(circle at 50% 50%, #000 12%, transparent 62%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 65% 65% at 50% 50%, #000 25%, transparent 78%)",
+              maskImage:
+                "radial-gradient(ellipse 65% 65% at 50% 50%, #000 25%, transparent 78%)",
             }}
           />
         </div>
@@ -268,7 +249,7 @@ export default function Home() {
 
       {/* ========================== TICKER =========================== */}
       <section className="border-y border-hairline bg-carbon/60 py-5 font-mono text-xs tracking-[0.24em] uppercase text-mist">
-        <Marquee items={capabilities} speed={46} />
+        <Marquee items={capabilities} speed={80} />
       </section>
 
       {/* ========================= MANIFESTO ========================= */}
@@ -351,13 +332,17 @@ export default function Home() {
                 </p>
               </Reveal>
               <Reveal delay={200}>
-                <Image
-                  src="/images/process-diagram.png"
-                  alt="Three stage diagram: discover, build, deploy"
-                  width={1408}
-                  height={768}
-                  className="mt-12 w-full h-auto invert-art opacity-45"
-                />
+                <ul className="mt-12 space-y-4">
+                  {steps.map((s) => (
+                    <li key={s.n} className="flex items-center gap-4">
+                      <span className="font-mono text-[10px] text-mist/40 w-6">{s.n}</span>
+                      <span className="h-px flex-1 bg-gradient-to-r from-violet2/60 via-cyan2/40 to-transparent" />
+                      <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-mist">
+                        {s.meta}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </Reveal>
             </div>
 
@@ -385,94 +370,18 @@ export default function Home() {
 
       {/* ============================ WORK =========================== */}
       <section id="work" className="scroll-mt-24 relative border-t border-hairline">
-        <div className="max-w-page mx-auto px-6 lg:px-10 py-24 lg:py-36">
-          <div className="flex flex-wrap items-end justify-between gap-6 mb-16">
-            <Reveal>
-              <Label>Selected work</Label>
-              <h2 className="mt-6 h-display text-[clamp(2.6rem,7vw,6rem)]">
-                Things that are <span className="italic plasma-text">running.</span>
-              </h2>
-            </Reveal>
-            <Reveal delay={140}>
-              <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-mist">
-                {work.length} projects
-              </p>
-            </Reveal>
-          </div>
+        {/* Intro sits above the pinned track so the pin starts clean */}
+        <div className="max-w-page mx-auto px-6 lg:px-10 pt-24 lg:pt-36 pb-12 lg:pb-20">
+          <Reveal>
+            <Label>Selected work</Label>
+            <h2 className="mt-6 h-display text-[clamp(2.6rem,7vw,6rem)] max-w-4xl">
+              Things that are <span className="italic plasma-text">running.</span>
+            </h2>
+          </Reveal>
+        </div>
 
-          <ul className="border-t border-hairline">
-            {work.map((w, i) => {
-              const Row = (
-                <div className="relative grid lg:grid-cols-[auto_1fr_1.5fr] gap-4 lg:gap-12 items-start py-9 lg:py-11 transition-transform duration-500 group-hover:lg:translate-x-3">
-                  <span className="font-mono text-[11px] text-mist/40 pt-2 lg:w-12">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  <div>
-                    <div className="flex flex-wrap items-center gap-3">
-                      <h3 className="h-display text-4xl lg:text-5xl group-hover:plasma-text transition-colors duration-500">
-                        {w.name}
-                      </h3>
-                      {w.status && <StatusPill status={w.status} />}
-                    </div>
-                    <p className="mt-2 font-mono text-[10px] tracking-[0.2em] uppercase text-mist/70">
-                      {w.category}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-mist leading-relaxed">{w.body}</p>
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {w.stack.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full border border-hairline px-3 py-1 font-mono text-[10px] tracking-[0.1em] uppercase text-mist group-hover:border-chalk/25 transition-colors duration-500"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    {w.link && (
-                      <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.16em] uppercase text-chalk">
-                        {w.link.replace("https://", "")}
-                        <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden>
-                          ↗
-                        </span>
-                      </span>
-                    )}
-                  </div>
-                </div>
-              );
-
-              return (
-                <li
-                  key={w.name}
-                  className="group relative border-b border-hairline overflow-hidden"
-                >
-                  <span
-                    className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{
-                      background:
-                        "linear-gradient(90deg, rgba(122,92,255,0.10), rgba(45,212,239,0.04) 55%, transparent)",
-                    }}
-                    aria-hidden
-                  />
-                  {w.link ? (
-                    <a
-                      href={w.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block px-2 lg:px-4"
-                    >
-                      {Row}
-                    </a>
-                  ) : (
-                    <div className="px-2 lg:px-4">{Row}</div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+        <div className="pb-24">
+          <WorkGallery items={work} />
         </div>
       </section>
 
@@ -608,9 +517,7 @@ export default function Home() {
         <div className="absolute inset-0 grid-floor rotate-180" aria-hidden />
         <div className="relative max-w-page mx-auto px-6 lg:px-10 py-28 lg:py-44 text-center">
           <Reveal>
-            <Label>
-              <span className="mx-auto">Next step</span>
-            </Label>
+            <Label center>Next step</Label>
           </Reveal>
           <Reveal delay={80}>
             <h2 className="mt-8 h-display text-[clamp(3.4rem,14vw,12rem)]">
@@ -652,7 +559,7 @@ export default function Home() {
       {/* ============================ FOOTER ========================= */}
       <footer className="relative border-t border-hairline overflow-hidden">
         <div className="py-6 border-b border-hairline font-display text-[clamp(3rem,12vw,10rem)] text-mist/10 select-none">
-          <Marquee items={["BHR AI", "BUILT TO FIT", "NAIROBI"]} reverse speed={34} />
+          <Marquee items={["BHR AI", "BUILT TO FIT", "NAIROBI"]} reverse speed={55} />
         </div>
 
         <div className="max-w-page mx-auto px-6 lg:px-10 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
