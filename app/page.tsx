@@ -459,51 +459,42 @@ export default function Home() {
       {/* ============================ ABOUT ========================== */}
       <section id="about" className="scroll-mt-24 relative border-t border-hairline bg-carbon/40">
         <div className="max-w-page mx-auto px-6 lg:px-10 py-24 lg:py-36">
-          <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-14 lg:gap-24 items-center">
-            <Reveal variant="left">
-              <div className="relative">
-                <div
-                  className="absolute -inset-4 -z-10 blur-2xl opacity-60"
-                  style={{
-                    background:
-                      "linear-gradient(140deg, rgba(122,92,255,0.5), rgba(45,212,239,0.3))",
-                  }}
-                  aria-hidden
-                />
-                <Image
-                  src="/images/founder.jpg"
-                  alt="Mark Kamami, founder of BHR AI"
-                  width={880}
-                  height={1174}
-                  className="w-full h-auto grayscale contrast-125 mix-blend-luminosity"
-                />
-                <div className="absolute inset-0 border border-chalk/15" aria-hidden />
-              </div>
-            </Reveal>
+          <Reveal>
+            <Label>Who we are</Label>
+          </Reveal>
+          <Reveal delay={80}>
+            <h2 className="mt-8 h-display text-[clamp(2.8rem,8.5vw,7rem)] max-w-5xl">
+              Built by <span className="italic plasma-text">Mark Kamami.</span>
+            </h2>
+          </Reveal>
 
+          <div className="mt-14 lg:mt-20 grid lg:grid-cols-[1.4fr_1fr] gap-12 lg:gap-24 items-start">
             <Reveal delay={140}>
-              <Label>Who we are</Label>
-              <h2 className="mt-6 h-display text-[clamp(2.4rem,6vw,4.8rem)]">
-                Built by <span className="italic plasma-text">Mark Kamami.</span>
-              </h2>
-              <p className="mt-7 text-lg text-mist leading-relaxed max-w-xl">
+              <p className="text-lg lg:text-xl text-mist leading-relaxed max-w-2xl">
                 Founder of BHR AI. Background in Diplomacy and International
                 Relations from the University of Nairobi. Builds production
                 systems for clients in East Africa and remote teams abroad.
                 Writes code, ships products, and treats every client engagement
                 as a long collaboration rather than a transaction.
               </p>
-              <dl className="mt-12 grid sm:grid-cols-3 gap-px bg-hairline border border-hairline">
+            </Reveal>
+
+            <Reveal delay={220}>
+              <dl className="grid grid-cols-2 lg:grid-cols-1 gap-px bg-hairline border border-hairline">
                 {[
                   ["Based", "Nairobi, KE"],
                   ["Works with", "EA + remote"],
                   ["Founded", "2025"],
+                  ["Discipline", "Build + maintain"],
                 ].map(([k, v]) => (
-                  <div key={k} className="bg-void/60 p-5">
+                  <div
+                    key={k}
+                    className="bg-void/60 p-5 flex items-baseline justify-between gap-4"
+                  >
                     <dt className="font-mono text-[10px] tracking-[0.2em] uppercase text-mist/60">
                       {k}
                     </dt>
-                    <dd className="mt-2 font-mono text-sm">{v}</dd>
+                    <dd className="font-mono text-sm text-right">{v}</dd>
                   </div>
                 ))}
               </dl>
